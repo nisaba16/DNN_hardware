@@ -1,0 +1,33 @@
+architecture:
+    version: '0.4'
+    local:
+      - name: System.PE.Buffer
+        class: regfile
+        attributes:
+            depth: 64
+            width: 8
+            block-size: 1
+            word-bits: 8
+            technology: 45nm
+            global_cycle_seconds: 1e-09
+        area_scale: 1.0
+        energy_scale: 1.0
+      - name: System.PE.MACC
+        class: intmac
+        attributes:
+            datawidth: 8
+            technology: 45nm
+            global_cycle_seconds: 1e-09
+        area_scale: 1.0
+        energy_scale: 1.0
+      - name: System.MainMemory
+        class: SRAM
+        attributes:
+            depth: 32768
+            width: 8
+            block-size: 1
+            word-bits: 8
+            technology: 45nm
+            global_cycle_seconds: 1e-09
+        area_scale: 1.0
+        energy_scale: 1.0

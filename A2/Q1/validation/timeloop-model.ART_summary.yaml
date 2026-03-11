@@ -1,0 +1,12 @@
+ART_summary:
+    version: '0.4'
+    table_summary:
+      - name: System.PE.Buffer
+        area: 845.98
+        primitive_estimations: Aladdin_table
+      - name: System.PE.MACC
+        area: 1.0
+        primitive_estimations: dummy
+      - name: System.MainMemory
+        area: 104157.0
+        primitive_estimations: CactiSRAM
