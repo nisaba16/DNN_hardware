@@ -128,7 +128,8 @@ def model_to_spars(model, prune_ratio_dict: Dict):
                 # prune the conv layer using `torch.nn.utils.prune.ln_structured` function.
                 # Prune the output channels based on L2 norm of the weight.
                 ##### WRITE CODE HERE #####
-                pass
+                prune.ln_structured(m, name='weight', amount=prune_ratio_dict[name], n=2, dim=0)
+                
             else:
                 warnings.warn(f"not found ratio for module {name}")
     return sparsed_model
@@ -158,9 +159,34 @@ def generate_resnet_layers(model, base_path='common/layer_prob_base.yaml',  path
             if hasattr(m, 'weight_mask'):
                 # compute number of zero channels
                 ##### WRITE CODE HERE #####
-                num_zero_channels = 0
+                weight_mask = m.weight_mask  # shape: [out_channels, in_channels, kH, kW]
+                channel_sums = weight_mask.sum(dim=(1, 2, 3))  # sum over all dims except out_channels
+                num_zero_channels = int((channel_sums == 0).sum().item())
+
             else:
                 num_zero_channels = 0
 
             # generate the yaml file for the conv layer using the function `conv_layer_generator`
             ##### WRITE CODE HERE #####
+
+            in_channels = m.in_channels
+            out_channels = m.out_channels - num_zero_channels
+            kernel_size = m.kernel_size[0]
+            stride = m.stride[0]
+            
+            # shape: [batch, C, H, W]
+            act = input_activation[name]  
+            H = act.shape[2]
+            W = act.shape[3]
+
+            save_path = os.path.join(path, name.replace('.', '_'))
+            conv_layer_generator(
+                base_path=base_path,
+                in_channels=in_channels,
+                out_channels=out_channels,
+                kernel_size=kernel_size,
+                stride=stride,
+                Height=H,
+                Width=W,
+                save_path=save_path
+            )
