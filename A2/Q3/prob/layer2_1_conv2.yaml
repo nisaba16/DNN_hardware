@@ -1,16 +1,16 @@
 problem:
   instance:
-    C: $in_channels$
+    C: 32
     Hdilation: 1
-    Hstride: $stride$
-    M: $out_channels$
+    Hstride: 1
+    M: 22
     N: 1
-    P: $Width$
-    Q: $Height$
-    R: $kernel_size$
-    S: $kernel_size$
+    P: 16
+    Q: 16
+    R: 3
+    S: 3
     Wdilation: 1
-    Wstride: $stride$
+    Wstride: 1
   shape:
     coefficients:
     - default: 1
